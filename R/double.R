@@ -15,6 +15,6 @@
 #' double(1:5)
 double <- function(number) {
   # Dummy code
-  a <- entropart::as.AbdVector(1)
+  a <- divent::as_abundances(1)
   return(2 * number)
 }
