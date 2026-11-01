@@ -18,5 +18,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Eric Marcon \email{e.marcon@free.fr} (\href{https://orcid.org/0000-0002-5249-321X}{ORCID})
 
+Authors:
+\itemize{
+  \item Eric Marcon \email{e.marcon@free.fr} (\href{https://orcid.org/0000-0002-5249-321X}{ORCID})
+}
+
 }
 \keyword{internal}

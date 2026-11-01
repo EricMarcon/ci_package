@@ -14,5 +14,5 @@ Description: Dummy package to test CI on Gitub.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
 Imports: divent
+Config/roxygen2/version: 8.1.0
