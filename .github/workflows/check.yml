@@ -9,33 +9,33 @@ jobs:
   R-CMD-check:
     runs-on: macOS-latest
     steps:
-      - name: Pull the repository
-        uses: actions/checkout@v4
-      - name: Install R
-        uses: r-lib/actions/setup-r@v2
+      - name: Check out
+        uses: actions/checkout@v7
       - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v2
-      - name: Install R packages
-        run: |
-          options(pkgType = "binary")
-          options(install.packages.check.source = "no")
-          install.packages(c("remotes", "roxygen2", "rcmdcheck", "covr", "pkgdown"))
-          remotes::install_deps(dependencies = TRUE)
-        shell: Rscript {0}
-      - name: Update the documentation
+      - name: Install R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages:
+            any::rcmdcheck
+            any::roxygen2
+          needs:
+            coverage
+      - name: Roxygenize
         run: roxygen2::roxygenize()
         shell: Rscript {0}
-      - name: Commit and push the repository
-        uses: EndBug/add-and-commit@v9
+      - name: Commit documentation
+        uses: EndBug/add-and-commit@v10
       - name: Check the package
-        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
-        shell: Rscript {0}
-      - name: Test coverage
-        run: covr::codecov(type="all")
-        shell: Rscript {0}
-      - name: Install the package
+        uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+      - name: Install package for pkgdown
         run: R CMD INSTALL .
-      - name: Pkgdown
+      - name: Build pkgdown site
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
